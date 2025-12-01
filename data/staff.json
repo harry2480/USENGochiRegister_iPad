@@ -1,0 +1,5 @@
+[
+  { "id": "001", "name": "オーナー", "password": "0000", "role": "owner" },
+  { "id": "002", "name": "店長", "password": "1234", "role": "manager" },
+  { "id": "003", "name": "スタッフ", "password": "5678", "role": "staff" }
+]
