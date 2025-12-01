@@ -1,0 +1,346 @@
+:root {
+  --usen-blue: #0091d5;
+  --usen-blue-light: #5bc0de;
+  --usen-orange: #ea5404; /* Slightly reddish orange */
+  --usen-red: #d9534f;
+  --usen-green: #5cb85c;
+  --header-yellow: #fff100;
+  --bg-color: #f4f4f4;
+  --border-color: #ccc;
+  --text-color: #333;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap');
+
+body {
+  font-family: "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-color);
+  overflow: hidden;
+  color: var(--text-color);
+  user-select: none; /* mimic app feel */
+}
+
+/* Header */
+.header {
+  background-color: var(--header-yellow);
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 15px;
+  font-weight: bold;
+  color: #555;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.header-left, .header-right {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.header-left span {
+    color: #007bff;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.header-center {
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.header-right {
+    font-size: 0.9rem;
+}
+
+/* Main Layout */
+.main-container {
+  display: flex;
+  height: calc(100vh - 50px);
+  padding: 8px;
+  box-sizing: border-box;
+  gap: 8px;
+}
+
+/* Common Panel Styles */
+.panel {
+  background-color: white;
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+/* Left Panel */
+.left-panel {
+  flex: 1;
+}
+
+.staff-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px dashed var(--border-color);
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+  font-size: 0.95rem;
+}
+
+.btn-settings {
+  background-color: #fff;
+  border: 1px solid #aaa;
+  color: #007bff;
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.btn-order {
+  background-color: #f39800; /* Orange */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 12px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 2px 0 #cf8100;
+}
+.btn-order:active {
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+    transform: translateY(2px);
+}
+
+.order-area {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #aaa;
+  text-align: center;
+  font-size: 1.1rem;
+}
+
+.left-bottom-buttons {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.btn-cancel, .btn-memo {
+  flex: 1;
+  background: linear-gradient(to bottom, #ffffff 0%, #f0f0f0 100%);
+  border: 1px solid #ccc;
+  padding: 12px;
+  color: #ccc;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* Center Panel */
+.center-panel {
+  flex: 1.2;
+}
+
+.summary-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 0.95rem;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.summary-divider {
+  border-bottom: 1px solid #ddd; /* Solid light grey */
+  margin: 10px 0;
+}
+
+.summary-divider-dashed {
+  border-bottom: 1px dashed #ddd;
+  margin: 10px 0;
+}
+
+.total-amount-row {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+  font-size: 1.3rem;
+  margin-top: 5px;
+  align-items: flex-end;
+}
+
+.payment-list-area {
+  flex-grow: 1;
+  border-top: 1px dashed var(--border-color);
+  border-bottom: 1px dashed var(--border-color);
+  margin: 10px 0;
+  padding: 5px 0;
+  overflow-y: auto;
+}
+
+.payment-label {
+    font-size: 0.9rem;
+    color: #333;
+}
+
+.bottom-summary-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-size: 1rem;
+}
+
+.text-blue { color: #0091d5; font-weight: bold; }
+.text-orange { color: #f39800; font-weight: bold; }
+.text-bold { font-weight: bold; }
+
+.btn-checkout-main {
+  background-color: #0091d5;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 15px;
+  font-size: 1.3rem;
+  font-weight: bold;
+  margin-top: 5px;
+  cursor: pointer;
+  box-shadow: 0 2px 0 #0070a3;
+}
+.btn-checkout-main:active {
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+    transform: translateY(2px);
+}
+
+/* Right Panel */
+.right-panel {
+  width: 300px;
+  min-width: 300px;
+}
+
+.top-action-buttons {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.btn-action {
+  flex: 1;
+  background-color: white;
+  border: 1px solid #0091d5;
+  color: #0091d5;
+  padding: 10px;
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.payment-method-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.btn-payment {
+  background-color: white;
+  border: 1px solid #ccc;
+  color: #888;
+  padding: 12px;
+  border-radius: 4px;
+  text-align: center;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.btn-payment.active {
+  background-color: #0091d5;
+  color: white;
+  border-color: #0091d5;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.display-box {
+  height: 60px;
+  border: 1px solid #888;
+  border-radius: 6px;
+  margin: 15px 0 10px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  background: white;
+}
+
+.black-bar {
+  background-color: black;
+  color: white;
+  text-align: right;
+  padding: 5px 10px;
+  font-size: 1.5rem;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  font-family: monospace;
+  height: 35px;
+  line-height: 35px;
+}
+
+.numpad {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  flex-grow: 1;
+}
+
+.btn-num {
+  background: linear-gradient(to bottom, #ffffff 0%, #f1f1f1 100%);
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1.4rem;
+  color: #333;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 55px; /* Fixed height for consistency */
+}
+.btn-num:active {
+    background: #e0e0e0;
+}
+
+.btn-num.clear {
+  color: red;
+  font-weight: bold;
+}
+
+.btn-num.balance {
+    color: #aaa;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.btn-num.enter {
+  background: #0091d5;
+  color: white;
+  border-color: #0070a3;
+}
+.btn-num.enter:active {
+    background: #0070a3;
+}
+
+.btn-num.disabled {
+    visibility: hidden;
+    pointer-events: none;
+}
