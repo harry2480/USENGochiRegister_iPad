@@ -671,3 +671,122 @@ body {
     font-size: 1rem;
     box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
+
+/* Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.checkout-modal {
+  background-color: white;
+  width: 600px;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  font-family: "Noto Sans JP", sans-serif;
+}
+
+.checkout-modal-header {
+  padding: 15px 20px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  border-bottom: 1px solid #eee;
+  color: #333;
+}
+
+.checkout-modal-body {
+  padding: 30px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.checkout-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.1rem;
+  color: #555;
+  padding: 5px 0;
+}
+
+.amount-text {
+  font-weight: bold;
+  font-size: 1.5rem;
+  color: #333;
+}
+
+.checkout-divider-dashed {
+  border-bottom: 2px dashed #ddd;
+  margin: 10px 0;
+}
+
+.checkout-buttons-row {
+  display: flex;
+  gap: 20px;
+  margin-top: 10px;
+}
+
+.checkout-buttons-row button {
+  flex: 1;
+  padding: 12px;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0 2px 0 rgba(0,0,0,0.1);
+  transition: all 0.1s;
+}
+.checkout-buttons-row button:active {
+    transform: translateY(2px);
+    box-shadow: none;
+}
+
+.btn-modal-blue {
+  background-color: #5bc0de; /* Light blue */
+  color: white;
+  border: none;
+  box-shadow: 0 2px 0 #46b8da;
+}
+
+.btn-modal-red {
+    /* Using blue as per image analysis, but highlighting it's the "Receipt" one?
+       Wait, in the image 11, "Receipt Issue" (Left) and "Points" (Center) are blue.
+       "Official Receipt" (Right) is highlighted with a red box in the guide, but the button itself looks blue or white?
+       The text in the guide says "Tap 'Official Receipt' (領収書発行)".
+       Looking closely at crop images or general UI patterns:
+       Usually actions are blue.
+       Let's stick to Blue for top row.
+       Wait, I set it to .btn-modal-red in HTML. Let's see if I should make it blue.
+       The prompt user said "Create the UI after pressing accounting button".
+       I will make it blue like the others for consistency with the image, unless the user specifically wants it red.
+       Wait, let's look at the image 11 again in my mind.
+       The button "領収書発行" has a red rectangle *drawn* on top of it. Underneath, it looks identical to the "Points" button (Blue).
+       So I will style .btn-modal-red same as blue, or rename it.
+       Actually, I'll just style .btn-modal-red to be Blue, but maybe I'll rename it in CSS to just use blue class.
+       But I already wrote the HTML. I'll just style .btn-modal-red as blue for now to match the visual reality, not the annotation.
+       Wait, the OCR said "[領収書発行]" might be different.
+       Let's assume standard buttons are Blue.
+       Actually, let's make it consistent.
+    */
+    background-color: #5bc0de;
+    color: white;
+    border: none;
+    box-shadow: 0 2px 0 #46b8da;
+}
+
+.btn-modal-white {
+  background-color: white;
+  color: #5bc0de;
+  border: 1px solid #5bc0de;
+  box-shadow: 0 2px 0 #ddd;
+}
