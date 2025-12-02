@@ -9,157 +9,325 @@
 </head>
 <body>
     <div id="app">
-        <!-- Header -->
-        <header class="header">
-            <div class="header-left">
-                <span>&lt; メニュー</span>
-            </div>
-            <div class="header-center">
-                <!-- 🔰 Beginner Mark using Unicode or CSS if needed, just a placeholder here -->
-                <span style="font-size: 1.5rem;">🔰</span>
-                <span>レジ会計</span>
-            </div>
-            <div class="header-right">
-                <span>{{ currentDate }}</span>
-                <span>{{ staffName }}</span>
-            </div>
-        </header>
-
-        <!-- Main Content -->
-        <div class="main-container">
-            <!-- Left Panel -->
-            <div class="panel left-panel">
-                <div class="staff-row">
-                    <span>担当者 {{ staffName }}</span>
-                    <button class="btn-settings">設定</button>
+        <!-- HOME SCREEN -->
+        <div v-if="currentView === 'home'" class="home-screen">
+            <header class="header home-header">
+                <div class="header-left">
+                    <!-- No left content in image -->
                 </div>
-                <button class="btn-order" @click="handleOrder">注文</button>
+                <div class="header-center">
+                    <span>メニュー</span>
+                </div>
+                <div class="header-right">
+                    <span>{{ currentDate }}</span>
+                    <span>{{ staffName }}</span>
+                </div>
+            </header>
+            <div class="home-container">
+                <aside class="sidebar">
+                    <div class="sidebar-item" @click="navigateTo('tables')">
+                        <div class="sidebar-text">オーダー・<br>会計</div>
+                        <div class="sidebar-icon">🛋️</div> <!-- Placeholder icon -->
+                    </div>
+                    <div class="sidebar-item">
+                        <div class="sidebar-text">即会計</div>
+                        <div class="sidebar-icon">📠</div> <!-- Placeholder icon -->
+                    </div>
+                    <div class="sidebar-item">
+                        <div class="sidebar-text">伝票明細</div>
+                    </div>
+                     <div class="sidebar-item has-arrow">
+                        <div class="sidebar-text">入出金</div>
+                    </div>
+                    <div class="sidebar-item">
+                        <div class="sidebar-text">ドアオープン</div>
+                    </div>
+                    <div class="sidebar-item has-arrow">
+                        <div class="sidebar-text">レジクローズ</div>
+                    </div>
+                     <div class="sidebar-item has-arrow">
+                        <div class="sidebar-text">設定</div>
+                    </div>
 
-                <div class="order-area">
-                    <div>
-                        注文ボタンを押して<br>
-                        メニューを選択してください。
+                    <div class="sidebar-footer" @click="console.log('logout')">
+                         <span>↪ ログアウト</span>
+                    </div>
+                </aside>
+                <main class="home-main">
+                    <div class="notification-bar">
+                         <span class="notification-icon">✉</span> お知らせはありません。
+                    </div>
+                    <div class="notification-line"></div>
+                    <div class="clock-widget">
+                        <div class="clock-circle">
+                            <!-- Simple SVG or CSS circle -->
+                             <div class="clock-hand hour-hand"></div>
+                             <div class="clock-hand minute-hand"></div>
+                        </div>
+                        <div class="time-display">15:49</div>
+                        <div class="weather-display">
+                            <span class="weather-icon">☁️/☀️</span>
+                            <span class="temp">9°C</span>
+                        </div>
+                         <div class="footer-alert">
+                            <span class="dots">● ●</span> <a href="#">【重要】必ずご確認ください 🗨️</a>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+
+        <!-- TABLE LIST SCREEN -->
+        <div v-if="currentView === 'tables'" class="tables-screen">
+             <header class="header">
+                <div class="header-left">
+                    <span @click="navigateTo('home')">&lt; メニュー</span>
+                </div>
+                <div class="header-center">
+                    <span>テーブル一覧</span>
+                </div>
+                <div class="header-right">
+                    <span>{{ currentDate }}</span>
+                    <span>{{ staffName }}</span>
+                </div>
+            </header>
+            <div class="tables-container">
+                <div class="table-grid">
+                    <div v-for="table in tables" :key="table.id"
+                         class="table-card"
+                         :class="table.status"
+                         @click="handleTableClick(table)">
+                        <div class="table-header">
+                            <span class="table-name">{{ table.name }}</span>
+                            <span v-if="table.people > 0" class="table-people">👤 {{ table.people }}</span>
+                            <span v-if="table.amount > 0" class="table-amount-small">(¥{{ table.amount.toLocaleString() }})</span>
+                        </div>
+                        <div class="table-body">
+                             <div v-if="table.amount > 0" class="table-total">¥{{ table.amount.toLocaleString() }}</div>
+                             <div v-if="table.time" class="table-time">
+                                <span>📲 {{ table.time }}</span>
+                                <span class="duration">⏱️ {{ table.duration }}</span>
+                             </div>
+                        </div>
+                        <div class="table-footer" v-if="table.status !== 'empty'">
+                            <span v-if="table.status === 'ordered' || table.status === 'ordered-alert'">オーダー済</span>
+                            <span v-if="table.status === 'served'" style="background: #ffcc00; color: #333;">配膳済</span>
+                            <span v-if="table.status === 'checkout'">分割会計中</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="tables-footer-actions">
+                    <button class="btn-refresh">更新</button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- REGISTER SCREEN (Refactored) -->
+        <div v-if="currentView === 'register'" class="register-screen">
+             <header class="header register-header">
+                <div class="header-left">
+                    <span @click="navigateTo('tables')">&lt; テーブル一覧</span>
+                </div>
+                <div class="header-center">
+                    <span style="font-size: 1.5rem;">🔰</span>
+                    <span>レジ会計</span>
+                </div>
+                <div class="header-right">
+                    <span>{{ currentDate }}</span>
+                    <span>{{ staffName }}</span>
+                </div>
+            </header>
+
+            <div class="main-container">
+                <!-- Left Panel -->
+                <div class="panel left-panel">
+                    <div class="staff-row">
+                        <span>担当者 {{ staffName }}</span>
+                        <button class="btn-settings">設定</button>
+                    </div>
+
+                    <div v-if="currentTable" class="table-info-section">
+                        <div class="table-id-row">
+                            <span class="table-id-large">{{ currentTable.name }}</span>
+                            <span class="people-count-large">人数 {{ currentTable.people }}</span>
+                        </div>
+                        <div class="customer-name-row">
+                            <span class="label">顧客名</span>
+                            <!-- <div class="input-placeholder"></div> -->
+                        </div>
+                        <div class="split-check-button-row">
+                            <button class="btn-split-check" @click="handleSplitCheck">伝票分割</button>
+                        </div>
+
+                        <div class="order-list">
+                            <div v-for="item in currentTable.items" class="order-item">
+                                <span class="item-name">{{ item.name }}</span>
+                                <span class="item-qty">{{ item.quantity }}個</span>
+                                <span class="item-price">¥{{ item.price }} ></span>
+                            </div>
+                             <!-- If no items, show placeholder or nothing -->
+                             <div v-if="!currentTable.items || currentTable.items.length === 0" style="color:#ccc; text-align:center; padding: 20px;">
+                                 (注文なし)
+                             </div>
+                        </div>
+                    </div>
+
+                    <div class="left-bottom-buttons-new">
+                        <button class="btn-order-orange" @click="handleOrder">注文</button>
+                        <button class="btn-memo-white" @click="handleMemo">支払メモ</button>
+                        <button class="btn-info-white" @click="handleCustomerInfo">お客様情報設定</button>
                     </div>
                 </div>
 
-                <div class="left-bottom-buttons">
-                    <button class="btn-cancel">取引中止</button>
-                    <button class="btn-memo">支払メモ</button>
-                </div>
-            </div>
-
-            <!-- Center Panel -->
-            <div class="panel center-panel">
-                <div class="summary-rows">
-                    <div class="summary-row">
-                        <span>小計</span>
-                        <span>{{ formatCurrency(subtotal) }}</span>
+                <!-- Center Panel -->
+                <div class="panel center-panel">
+                    <div class="summary-rows">
+                        <div class="summary-row">
+                            <span>小計</span>
+                            <span>{{ formatCurrency(subtotal) }}</span>
+                        </div>
+                        <div class="summary-row">
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <!-- Toggle Switch -->
+                                <label class="switch">
+                                  <input type="checkbox" v-model="isServiceChargeEnabled">
+                                  <span class="slider round"></span>
+                                </label>
+                                <span>サービス料金</span>
+                            </div>
+                            <span>{{ formatCurrency(serviceCharge) }}</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>深夜料金</span>
+                            <span>{{ formatCurrency(lateNightCharge) }}</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>値引引計</span>
+                            <span>{{ formatCurrency(discountTotal) }}</span>
+                        </div>
                     </div>
-                    <div class="summary-row">
-                        <span>サービス料金</span>
-                        <span>{{ formatCurrency(serviceCharge) }}</span>
+
+                    <div class="summary-divider-dashed"></div>
+
+                    <div class="total-amount-row">
+                        <span>お支払い金額</span>
+                        <span style="font-size: 1.5rem;">{{ formatCurrency(totalAmount) }}</span>
                     </div>
-                    <div class="summary-row">
-                        <span>深夜料金</span>
-                        <span>{{ formatCurrency(lateNightCharge) }}</span>
+                    <div class="summary-row" style="color: #666; font-size: 0.9rem; margin-top: 5px;">
+                        <span>消費税</span>
+                        <span>{{ formatCurrency(taxAmount) }}</span>
                     </div>
+
+                    <div class="payment-list-area">
+                        <div style="font-size: 0.9rem; color: #333; margin-bottom: 5px;">支払</div>
+                    </div>
+
+                    <div class="summary-divider-dashed"></div>
+
+                    <div class="bottom-summary-row text-blue">
+                        <span>お預かり金額</span>
+                        <span>{{ formatCurrency(receivedAmount) }}</span>
+                    </div>
+                    <div class="bottom-summary-row text-orange">
+                        <span>残額</span>
+                        <span>{{ formatCurrency(balanceAmount) }}</span>
+                    </div>
+                    <div class="summary-divider"></div>
+                    <div class="bottom-summary-row text-bold" style="font-size: 1.2rem;">
+                        <span>おつり</span>
+                        <span>{{ formatCurrency(changeAmount) }}</span>
+                    </div>
+
+                    <button class="btn-checkout-main" @click="handleCheckout">会計</button>
                 </div>
 
-                <div class="summary-divider-dashed"></div>
+                <!-- Right Panel (Mostly unchanged) -->
+                <div class="panel right-panel">
+                    <div class="top-action-buttons">
+                        <button class="btn-action" @click="handleDiscount">値割引登録</button>
+                        <button class="btn-action" @click="handleVoucher">金券</button>
+                    </div>
 
-                <div class="summary-row">
-                    <span>値引引計</span>
-                    <span>{{ formatCurrency(discountTotal) }}</span>
-                </div>
+                    <div class="summary-divider-dashed"></div>
 
-                <!-- Spacer to push total down if needed, but flex handles it -->
-                <div style="flex-grow: 0.1;"></div>
+                    <div class="payment-method-buttons">
+                        <button class="btn-payment" :class="{ active: paymentMethod === 'cash' }" @click="setPaymentMethod('cash')">
+                            現金
+                        </button>
+                        <button class="btn-payment" :class="{ active: paymentMethod === 'other' }" @click="setPaymentMethod('other')">
+                            その他支払
+                        </button>
+                    </div>
 
-                <div class="summary-divider"></div> <!-- Dashed line above total amount in image looks like dotted/dashed actually -->
-                <!-- The image has a dashed line above "Payment Amount" area -->
+                    <div class="display-box">
+                    </div>
 
-                <div class="total-amount-row">
-                    <span>お支払い金額</span>
-                    <span style="font-size: 1.5rem;">{{ formatCurrency(totalAmount) }}</span>
-                </div>
-                <div class="summary-row" style="color: #666; font-size: 0.9rem; margin-top: 5px;">
-                    <span>消費税</span>
-                    <span>{{ formatCurrency(taxAmount) }}</span>
-                </div>
+                    <div class="black-bar">
+                        {{ inputAmount }}
+                    </div>
 
-                <div class="payment-list-area">
-                    <div style="font-size: 0.9rem; color: #333; margin-bottom: 5px;">支払</div>
-                    <!-- Empty list as per image -->
-                </div>
+                    <div class="numpad">
+                        <button class="btn-num clear" @click="handleClear">C</button>
+                        <button class="btn-num balance" @click="handleBalance">残額</button>
+                        <button class="btn-num disabled"></button>
 
-                <div class="summary-divider-dashed"></div>
+                        <button class="btn-num" @click="handleNumClick('7')">7</button>
+                        <button class="btn-num" @click="handleNumClick('8')">8</button>
+                        <button class="btn-num" @click="handleNumClick('9')">9</button>
 
-                <div class="bottom-summary-row text-blue">
-                    <span>お預かり金額</span>
-                    <span>{{ formatCurrency(receivedAmount) }}</span>
-                </div>
-                <div class="bottom-summary-row text-orange">
-                    <span>残額</span>
-                    <span>{{ formatCurrency(balanceAmount) }}</span>
-                </div>
-                <div class="summary-divider"></div>
-                <div class="bottom-summary-row text-bold" style="font-size: 1.2rem;">
-                    <span>おつり</span>
-                    <span>{{ formatCurrency(changeAmount) }}</span>
-                </div>
+                        <button class="btn-num" @click="handleNumClick('4')">4</button>
+                        <button class="btn-num" @click="handleNumClick('5')">5</button>
+                        <button class="btn-num" @click="handleNumClick('6')">6</button>
 
-                <button class="btn-checkout-main">会計</button>
-            </div>
+                        <button class="btn-num" @click="handleNumClick('1')">1</button>
+                        <button class="btn-num" @click="handleNumClick('2')">2</button>
+                        <button class="btn-num" @click="handleNumClick('3')">3</button>
 
-            <!-- Right Panel -->
-            <div class="panel right-panel">
-                <div class="top-action-buttons">
-                    <button class="btn-action">値引登録</button>
-                    <button class="btn-action">金券</button>
-                </div>
-
-                <div class="summary-divider-dashed"></div>
-
-                <div class="payment-method-buttons">
-                    <button class="btn-payment" :class="{ active: paymentMethod === 'cash' }" @click="setPaymentMethod('cash')">
-                        現金
-                    </button>
-                    <button class="btn-payment" :class="{ active: paymentMethod === 'other' }" @click="setPaymentMethod('other')">
-                        その他支払
-                    </button>
-                </div>
-
-                <div class="display-box">
-                    <!-- White box is empty in the image -->
-                </div>
-
-                <div class="black-bar">
-                    {{ inputAmount }}
-                </div>
-
-                <div class="numpad">
-                    <button class="btn-num clear" @click="handleClear">C</button>
-                    <button class="btn-num balance" @click="handleBalance">残額</button>
-                    <button class="btn-num disabled"></button> <!-- Spacer -->
-
-                    <button class="btn-num" @click="handleNumClick('7')">7</button>
-                    <button class="btn-num" @click="handleNumClick('8')">8</button>
-                    <button class="btn-num" @click="handleNumClick('9')">9</button>
-
-                    <button class="btn-num" @click="handleNumClick('4')">4</button>
-                    <button class="btn-num" @click="handleNumClick('5')">5</button>
-                    <button class="btn-num" @click="handleNumClick('6')">6</button>
-
-                    <button class="btn-num" @click="handleNumClick('1')">1</button>
-                    <button class="btn-num" @click="handleNumClick('2')">2</button>
-                    <button class="btn-num" @click="handleNumClick('3')">3</button>
-
-                    <button class="btn-num" @click="handleNumClick('0')">0</button>
-                    <button class="btn-num" @click="handleNumClick('00')">00</button>
-                    <button class="btn-num enter" @click="handleEnter">決定</button>
+                        <button class="btn-num" @click="handleNumClick('0')">0</button>
+                        <button class="btn-num" @click="handleNumClick('00')">00</button>
+                        <button class="btn-num enter" @click="handleEnter">決定</button>
+                    </div>
                 </div>
             </div>
         </div>
+            <!-- CHECKOUT COMPLETE MODAL -->
+            <div v-if="showCheckoutModal" class="modal-overlay">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2>会計完了</h2>
+                    </div>
+                    <div class="modal-body">
+                        <div class="modal-row">
+                            <span class="label">お支払い金額</span>
+                            <span class="value">{{ formatCurrency(totalAmount) }}</span>
+                        </div>
+                         <div class="modal-divider-dotted"></div>
+                        <div class="modal-row">
+                            <span class="label">お預かり金額</span>
+                            <span class="value">{{ formatCurrency(receivedAmount) }}</span>
+                        </div>
+                        <div class="modal-divider-dotted"></div>
+                        <div class="modal-row">
+                            <span class="label">おつり</span>
+                            <span class="value">{{ formatCurrency(changeAmount) }}</span>
+                        </div>
+                         <div class="modal-divider-dotted"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="modal-buttons-row">
+                            <button class="btn-blue-modal" @click="handleIssueReceipt">レシート発行</button>
+                            <button class="btn-blue-modal" @click="handleGrantPoints">ポイント付与</button>
+                            <button class="btn-blue-modal" @click="handleIssueOfficialReceipt">領収書発行</button>
+                        </div>
+                        <div class="modal-buttons-row">
+                            <button class="btn-white-modal" @click="closeCheckoutModal">メニュー</button>
+                            <button class="btn-white-modal" @click="handleSlipDetails">伝票明細</button>
+                            <button class="btn-white-modal" @click="handleContinuousCheckout">連続会計</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
     </div>
     <script src="js/app.js"></script>
 </body>
