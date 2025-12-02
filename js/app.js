@@ -2,9 +2,32 @@ const { createApp, ref, computed } = Vue;
 
 createApp({
   setup() {
+    // App Navigation State
+    const currentView = ref('home'); // 'home', 'tables', 'register'
+
     // State
-    const currentDate = ref('2020/08/06');
+    const currentDate = ref('2022/04/04'); // Updated to match image
     const staffName = ref('オーナー'); // Default
+
+    // Table Data (Mock)
+    const tables = ref([
+      { id: 'C1', name: 'C1', status: 'ordered', people: 2, amount: 2740, time: '16:47', duration: '00:00' },
+      { id: 'C2', name: 'C2', status: 'served', people: 6, amount: 5520, time: '16:46', duration: '00:31' },
+      { id: 'C3', name: 'C3', status: 'ordered', people: 2, amount: 3700, time: '16:46', duration: '00:00' },
+      { id: 'C4', name: 'C4', status: 'checkout', people: 2, amount: 1700, time: '16:47', duration: '00:00' },
+      { id: 'C5', name: 'C5', status: 'ordered', people: 1, amount: 1900, time: '15:58', duration: '00:00' },
+      { id: 'C6', name: 'C6', status: 'ordered-alert', people: 2, amount: 700, time: '16:45', duration: '00:00' },
+      { id: 'C7', name: 'C7', status: 'ordered', people: 1, amount: 1000, time: '16:49', duration: '00:00' },
+      { id: 'C8', name: 'C8', status: 'empty', people: 0, amount: 0, time: '', duration: '' },
+      { id: 'C9', name: 'C9', status: 'empty', people: 0, amount: 0, time: '', duration: '' },
+      { id: 'C10', name: 'C10', status: 'empty', people: 0, amount: 0, time: '', duration: '' },
+      { id: 'T1', name: 'T1', status: 'empty', people: 0, amount: 0, time: '', duration: '' },
+      { id: 'T2', name: 'T2', status: 'empty', people: 0, amount: 0, time: '', duration: '' },
+      { id: 'T3', name: 'T3', status: 'empty', people: 0, amount: 0, time: '', duration: '' },
+      { id: 'T4', name: 'T4', status: 'empty', people: 0, amount: 0, time: '', duration: '' },
+      { id: 'T5', name: 'T5', status: 'empty', people: 0, amount: 0, time: '', duration: '' },
+      { id: 'T6', name: 'T6', status: 'empty', people: 0, amount: 0, time: '', duration: '' },
+    ]);
 
     // Transaction Data
     const subtotal = ref(0);
@@ -57,6 +80,23 @@ createApp({
     });
 
     // Methods
+    const navigateTo = (view) => {
+        currentView.value = view;
+    };
+
+    const handleTableClick = (table) => {
+        if (table.status !== 'empty') {
+             // Load table data if we were building a real app
+             // For now just switch to register view
+             // Maybe set subtotal based on table amount to make it dynamic
+             subtotal.value = table.amount;
+             receivedAmount.value = 0;
+             inputBuffer.value = '';
+             inputAmount.value = '0';
+             navigateTo('register');
+        }
+    };
+
     const handleNumClick = (num) => {
       if (inputBuffer.value === '' && num === '00') return;
       if (inputBuffer.value === '0' && num === '0') return;
@@ -129,7 +169,11 @@ createApp({
       handleBalance,
       formatCurrency,
       setPaymentMethod,
-      handleOrder
+      handleOrder,
+      currentView,
+      navigateTo,
+      tables,
+      handleTableClick
     };
   }
 }).mount('#app');
