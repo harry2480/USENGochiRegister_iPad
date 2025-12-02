@@ -217,7 +217,7 @@
                         <span>{{ formatCurrency(changeAmount) }}</span>
                     </div>
 
-                    <button class="btn-checkout-main">会計</button>
+                    <button class="btn-checkout-main" @click="handleCheckout">会計</button>
                 </div>
 
                 <!-- Right Panel -->
@@ -265,6 +265,46 @@
                         <button class="btn-num" @click="handleNumClick('0')">0</button>
                         <button class="btn-num" @click="handleNumClick('00')">00</button>
                         <button class="btn-num enter" @click="handleEnter">決定</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CHECKOUT COMPLETE MODAL -->
+        <div v-if="showCheckoutModal" class="modal-overlay">
+            <div class="checkout-modal">
+                <div class="checkout-modal-header">
+                    会計完了
+                </div>
+                <div class="checkout-modal-body">
+                    <div class="checkout-row">
+                        <span>お支払い金額</span>
+                        <span class="amount-text">{{ formatCurrency(totalAmount) }}</span>
+                    </div>
+
+                     <div class="checkout-row">
+                        <span>お預かり金額</span>
+                        <span class="amount-text">{{ formatCurrency(receivedAmount) }}</span>
+                    </div>
+
+                    <div class="checkout-divider-dashed"></div>
+
+                    <div class="checkout-row">
+                        <span>おつり</span>
+                        <span class="amount-text">{{ formatCurrency(changeAmount) }}</span>
+                    </div>
+
+                    <div class="checkout-divider-dashed"></div>
+
+                    <div class="checkout-buttons-row">
+                        <button class="btn-modal-blue" @click="handleReceiptIssue">レシート発行</button>
+                        <button class="btn-modal-blue" @click="handlePoints">ポイント付与</button>
+                        <button class="btn-modal-red" @click="handleOfficialReceipt">領収書発行</button>
+                    </div>
+                    <div class="checkout-buttons-row">
+                        <button class="btn-modal-white" @click="closeCheckoutModal('menu')">メニュー</button>
+                        <button class="btn-modal-white" @click="closeCheckoutModal('detail')">伝票明細</button>
+                        <button class="btn-modal-white" @click="closeCheckoutModal('continuous')">連続会計</button>
                     </div>
                 </div>
             </div>

@@ -41,6 +41,9 @@ createApp({
     const receivedAmount = ref(0);
     const paymentMethod = ref('cash');
 
+    // Modal State
+    const showCheckoutModal = ref(false);
+
     // Hardcoded Data (replacing JSON files)
     const products = [
       { id: 1, categoryId: 1, name: "ブレンドコーヒー", price: 450 },
@@ -93,7 +96,59 @@ createApp({
              receivedAmount.value = 0;
              inputBuffer.value = '';
              inputAmount.value = '0';
+             showCheckoutModal.value = false; // Ensure modal is closed
              navigateTo('register');
+        }
+    };
+
+    const handleCheckout = () => {
+        // Simple validation
+        if (totalAmount.value > 0 && receivedAmount.value >= totalAmount.value) {
+            showCheckoutModal.value = true;
+        } else {
+            // In a real app, show error or shake animation
+            alert('お預かり金額が不足しています');
+        }
+    };
+
+    const closeCheckoutModal = (action) => {
+        showCheckoutModal.value = false;
+
+        // Reset Transaction
+        subtotal.value = 0;
+        receivedAmount.value = 0;
+        inputBuffer.value = '';
+        inputAmount.value = '0';
+
+        if (action === 'menu') {
+            navigateTo('home');
+        } else if (action === 'continuous') {
+            navigateTo('tables');
+        } else if (action === 'detail') {
+             // Stay on register or go to detail view (not implemented)
+             // For now, go back to tables as default behavior for "done"
+             navigateTo('tables');
+        }
+    };
+
+    const handleReceiptIssue = () => {
+        alert('レシートを発行しました (Simulation)');
+    };
+
+    const handlePoints = () => {
+        // alert('ポイント付与 (Simulation)');
+        const points = Math.floor(totalAmount.value * 0.01);
+        alert(`${points}ポイントを付与しました`);
+    };
+
+    const handleOfficialReceipt = () => {
+        // Implement the "Official Receipt" flow if requested, but for now just an alert or navigate
+        // The user prompt mentioned: "If you need a receipt, tap 'Issue Receipt'."
+        // "In the receipt issuance screen, you can issue a receipt with any amount."
+        // For this task, I'll just show an alert simulating the transition or action.
+        const name = prompt('宛名を入力してください', '');
+        if (name !== null) {
+             alert(`「${name}」様 領収書を発行しました。\n金額: ¥${totalAmount.value.toLocaleString()}`);
         }
     };
 
@@ -173,7 +228,13 @@ createApp({
       currentView,
       navigateTo,
       tables,
-      handleTableClick
+      handleTableClick,
+      showCheckoutModal,
+      handleCheckout,
+      closeCheckoutModal,
+      handleReceiptIssue,
+      handlePoints,
+      handleOfficialReceipt
     };
   }
 }).mount('#app');
