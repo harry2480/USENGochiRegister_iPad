@@ -223,7 +223,7 @@
                 <!-- Right Panel -->
                 <div class="panel right-panel">
                     <div class="top-action-buttons">
-                        <button class="btn-action">値引登録</button>
+                        <button class="btn-action" @click="openDiscountModal">値引・割引登録</button>
                         <button class="btn-action">金券</button>
                     </div>
 
@@ -265,6 +265,69 @@
                         <button class="btn-num" @click="handleNumClick('0')">0</button>
                         <button class="btn-num" @click="handleNumClick('00')">00</button>
                         <button class="btn-num enter" @click="handleEnter">決定</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- DISCOUNT MODAL -->
+        <div v-if="showDiscountModal" class="modal-overlay">
+            <div class="discount-modal">
+                <div class="discount-modal-header">
+                    <span>値引・割引登録</span>
+                    <button class="btn-close-modal" @click="closeDiscountModal">×</button>
+                </div>
+                <div class="discount-body">
+                    <div class="discount-left">
+                        <div class="discount-tabs">
+                            <div class="discount-tab" :class="{ active: discountTab === 'value' }" @click="setDiscountTab('value')">
+                                値引 (円)
+                            </div>
+                            <div class="discount-tab" :class="{ active: discountTab === 'percent' }" @click="setDiscountTab('percent')">
+                                割引 (%)
+                            </div>
+                        </div>
+
+                        <div class="discount-input-display">
+                             {{ discountInput }}
+                        </div>
+
+                        <div class="discount-numpad">
+                             <button class="discount-btn-num" @click="handleDiscountNumClick('7')">7</button>
+                             <button class="discount-btn-num" @click="handleDiscountNumClick('8')">8</button>
+                             <button class="discount-btn-num" @click="handleDiscountNumClick('9')">9</button>
+                             <button class="discount-btn-num" @click="handleDiscountNumClick('4')">4</button>
+                             <button class="discount-btn-num" @click="handleDiscountNumClick('5')">5</button>
+                             <button class="discount-btn-num" @click="handleDiscountNumClick('6')">6</button>
+                             <button class="discount-btn-num" @click="handleDiscountNumClick('1')">1</button>
+                             <button class="discount-btn-num" @click="handleDiscountNumClick('2')">2</button>
+                             <button class="discount-btn-num" @click="handleDiscountNumClick('3')">3</button>
+                             <button class="discount-btn-num" @click="handleDiscountNumClick('0')">0</button>
+                             <button class="discount-btn-num" @click="handleDiscountNumClick('00')">00</button>
+                             <button class="discount-btn-num" style="color:red;" @click="handleDiscountClear">C</button>
+                        </div>
+
+                        <button class="btn-confirm-discount" @click="addDiscount">追加</button>
+                    </div>
+
+                    <div class="discount-right">
+                         <div style="margin-bottom: 10px; font-weight: bold; color: #555;">適用中</div>
+                         <div class="discount-applied-list">
+                            <div v-for="(item, index) in discountList" :key="index" class="discount-item">
+                                <span>{{ item.name }}</span>
+                                <button class="btn-delete-discount" @click="removeDiscount(index)">削除</button>
+                            </div>
+                         </div>
+                         <div class="discount-summary">
+                             <div class="discount-summary-row">
+                                 <span>小計</span>
+                                 <span>{{ formatCurrency(subtotal) }}</span>
+                             </div>
+                             <div class="discount-summary-row total">
+                                 <span>支払計</span>
+                                 <span>{{ formatCurrency(totalAmount) }}</span>
+                             </div>
+                         </div>
                     </div>
                 </div>
             </div>

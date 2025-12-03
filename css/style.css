@@ -790,3 +790,182 @@ body {
   border: 1px solid #5bc0de;
   box-shadow: 0 2px 0 #ddd;
 }
+
+/* Discount Modal Styles */
+.discount-modal {
+    background-color: white;
+    width: 700px;
+    height: 550px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    font-family: "Noto Sans JP", sans-serif;
+    display: flex;
+    flex-direction: column;
+}
+
+.discount-modal-header {
+    background-color: var(--usen-blue);
+    color: white;
+    padding: 15px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.btn-close-modal {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.discount-body {
+    display: flex;
+    flex-grow: 1;
+    background-color: #f4f4f4;
+}
+
+.discount-left {
+    flex: 1.2;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid #ccc;
+}
+
+.discount-right {
+    flex: 0.8;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+.discount-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.discount-tab {
+    flex: 1;
+    padding: 12px;
+    text-align: center;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-weight: bold;
+    color: #666;
+    cursor: pointer;
+}
+
+.discount-tab.active {
+    background-color: var(--usen-blue);
+    color: white;
+    border-color: var(--usen-blue);
+}
+
+.discount-input-display {
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 0 15px;
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.discount-numpad {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    flex-grow: 1;
+}
+
+.discount-btn-num {
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1.4rem;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.discount-btn-num:active {
+    background-color: #eee;
+}
+
+.discount-applied-list {
+    flex-grow: 1;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    overflow-y: auto;
+    margin-bottom: 15px;
+}
+
+.discount-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    font-size: 1rem;
+}
+
+.discount-item:last-child {
+    border-bottom: none;
+}
+
+.btn-delete-discount {
+    background-color: var(--usen-red);
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.8rem;
+}
+
+.discount-summary {
+    background-color: #eaf6fc;
+    padding: 15px;
+    border-radius: 4px;
+    border: 1px solid #bce8f1;
+}
+
+.discount-summary-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    font-size: 1rem;
+}
+.discount-summary-row.total {
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: var(--usen-blue);
+    border-top: 1px dashed #ccc;
+    padding-top: 10px;
+    margin-top: 5px;
+}
+
+.btn-confirm-discount {
+    margin-top: 15px;
+    background-color: var(--usen-orange);
+    color: white;
+    border: none;
+    padding: 15px;
+    border-radius: 4px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 2px 0 #cf4904;
+}
