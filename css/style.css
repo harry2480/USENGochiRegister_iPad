@@ -344,3 +344,829 @@ body {
     visibility: hidden;
     pointer-events: none;
 }
+
+/* =========================================
+   Home Screen Styles
+   ========================================= */
+.home-header {
+    background-color: #666;
+    color: white;
+}
+.home-header .header-center,
+.home-header .header-right {
+    color: white;
+}
+
+.home-container {
+    display: flex;
+    height: calc(100vh - 50px);
+    background-color: #f0f0f0;
+}
+
+.sidebar {
+    width: 280px;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid #ccc;
+}
+
+.sidebar-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+    font-weight: bold;
+    color: #666;
+}
+.sidebar-item:hover {
+    background-color: #f9f9f9;
+}
+
+.sidebar-item:nth-child(1) { /* Order / Accounting */
+    color: #0091d5;
+    font-size: 1.2rem;
+    padding: 25px 20px;
+}
+.sidebar-item:nth-child(1) .sidebar-icon {
+    font-size: 2rem;
+    color: #0091d5;
+}
+
+.sidebar-item:nth-child(2) { /* Instant Accounting */
+    color: #0091d5;
+    font-size: 1.2rem;
+    padding: 25px 20px;
+    border-bottom: 3px solid #0091d5; /* Highlight in image-ish */
+}
+.sidebar-item:nth-child(2) .sidebar-icon {
+    font-size: 2rem;
+}
+
+.sidebar-item.has-arrow::after {
+    content: '›';
+    font-size: 1.5rem;
+    color: #ccc;
+}
+
+.sidebar-footer {
+    margin-top: auto;
+    background-color: #444;
+    color: white;
+    padding: 20px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.home-main {
+    flex-grow: 1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    background-color: #f4f8fb;
+}
+
+.notification-bar {
+    background-color: #f4f4f4;
+    padding: 10px;
+    color: #555;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.9rem;
+}
+.notification-icon {
+    color: #666;
+    font-size: 1.2rem;
+}
+
+.notification-line {
+    height: 2px;
+    background-color: #0091d5;
+    margin-bottom: 20px;
+}
+
+.clock-widget {
+    background-color: #b3d7ed; /* Light blue from image */
+    flex-grow: 1;
+    border-radius: 10px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.clock-circle {
+    width: 400px;
+    height: 400px;
+    border: 4px solid white;
+    border-radius: 50%;
+    position: absolute;
+    left: 100px;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0.8;
+}
+
+.clock-hand {
+    position: absolute;
+    background-color: white;
+    transform-origin: bottom center;
+}
+.hour-hand {
+    width: 6px;
+    height: 120px;
+    left: 50%;
+    bottom: 50%;
+    transform: translateX(-50%) rotate(-60deg); /* Fixed pos */
+}
+.minute-hand {
+    width: 4px;
+    height: 180px;
+    left: 50%;
+    bottom: 50%;
+    transform: translateX(-50%) rotate(130deg); /* Fixed pos */
+}
+
+.time-display {
+    position: absolute;
+    right: 50px;
+    top: 100px;
+    font-size: 6rem;
+    font-weight: bold;
+    color: white;
+}
+
+.weather-display {
+    position: absolute;
+    right: 80px;
+    bottom: 100px;
+    color: white;
+    text-align: center;
+}
+.weather-icon {
+    font-size: 4rem;
+    display: block;
+}
+.temp {
+    font-size: 3rem;
+    font-weight: bold;
+}
+
+.footer-alert {
+    position: absolute;
+    bottom: 10px;
+    right: 20px;
+    font-size: 0.9rem;
+}
+.footer-alert a {
+    color: #0091d5;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* =========================================
+   Table List Screen Styles
+   ========================================= */
+.tables-screen {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.tables-container {
+    flex-grow: 1;
+    background-color: #eaf6fc;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.table-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 columns */
+    grid-auto-rows: 140px;
+    gap: 10px;
+    overflow-y: auto;
+    padding-bottom: 60px; /* Space for footer button */
+}
+
+.table-card {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    cursor: pointer;
+    border: 1px solid #ddd;
+    overflow: hidden;
+}
+
+.table-header {
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.table-name {
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: #0091d5;
+}
+.table-people {
+    font-size: 0.9rem;
+    color: #666;
+}
+.table-amount-small {
+    font-size: 0.8rem;
+    color: #999;
+}
+
+.table-body {
+    padding: 0 8px;
+    text-align: right;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.table-total {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #555;
+}
+.table-time {
+    font-size: 0.8rem;
+    color: #999;
+    display: flex;
+    justify-content: flex-end;
+    gap: 5px;
+}
+
+.table-footer {
+    padding: 5px;
+    text-align: center;
+    color: white;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+/* Status Colors */
+.table-card.ordered .table-footer {
+    background-color: #0091d5; /* Blue */
+}
+.table-card.ordered-alert .table-footer {
+    background-color: #d9534f; /* Red */
+}
+.table-card.served .table-footer {
+    background-color: #ffcc00; /* Yellow */
+    color: #333;
+}
+.table-card.checkout .table-footer {
+    background-color: #0091d5; /* Blue same as ordered in image 8 */
+    /* Wait, image 8 says "Partition Checkout" is blue too? */
+    /* Let's verify image.
+       C4 is "Partition Checkout" (Blue)
+       C2 is "Served" (Yellow)
+       C6 is "Ordered" (Red? No, C6 is red. Wait.)
+       The image shows:
+       C1 (Blue) - Order Done
+       C2 (Yellow) - Served
+       C3 (Blue) - Order Done
+       C4 (Blue) - Partition Checkout
+       C5 (Blue) - Order Done
+       C6 (Red) - Order Done (Why red? Maybe late?)
+       C7 (Blue) - Order Done
+    */
+    /* I'll stick to blue for ordered, yellow for served for now. */
+}
+/* Let's just use a generic class for red if needed, but for now standard blue */
+
+.table-card.empty {
+    background-color: white;
+    /* Empty tables have no footer */
+}
+
+.tables-footer-actions {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 10px;
+    text-align: right;
+    pointer-events: none; /* Let clicks pass through */
+}
+.btn-refresh {
+    pointer-events: auto;
+    background-color: #0091d5;
+    color: white;
+    border: none;
+    padding: 10px 30px;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 1rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+/* =========================================
+   Register Screen New Styles
+   ========================================= */
+
+/* Header Override */
+.register-header {
+    background-color: #fff100; /* Yellow */
+    color: black;
+    box-shadow: none;
+    border-bottom: 1px solid #ccc;
+}
+.register-header .header-center {
+    color: black;
+}
+.register-header .header-left span {
+    color: #0091d5; /* Blue */
+}
+.register-header .header-right {
+    color: white; /* Matches user image top right */
+    /* Wait, checking image 10, top right looks white text on yellow?
+       Actually it's hard to tell, but looks white or very light grey.
+       Let's stick to white or black. Given contrast, black might be safer,
+       but image seems to show white date. */
+    text-shadow: 0 1px 1px rgba(0,0,0,0.2);
+}
+
+/* Left Panel Updates */
+.table-info-section {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.table-id-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 5px;
+}
+.table-id-large {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #0091d5;
+}
+.people-count-large {
+    font-size: 1rem;
+    color: #333;
+}
+
+.customer-name-row {
+    margin-bottom: 10px;
+}
+.customer-name-row .label {
+    font-size: 0.8rem;
+    color: #888;
+}
+
+.split-check-button-row {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+.btn-split-check {
+    background-color: white;
+    border: 1px solid #0091d5;
+    color: #0091d5;
+    border-radius: 4px;
+    padding: 8px 30px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.order-list {
+    flex-grow: 1;
+    overflow-y: auto;
+    border-top: 1px dashed #ccc;
+    border-bottom: 1px dashed #ccc;
+    margin-bottom: 10px;
+}
+
+.order-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 5px;
+    border-bottom: 1px solid #eee;
+    font-size: 0.95rem;
+}
+.item-name {
+    flex-grow: 1;
+}
+.item-qty {
+    margin: 0 10px;
+    font-weight: bold;
+}
+.item-price {
+    color: #666;
+}
+
+.left-bottom-buttons-new {
+    display: flex;
+    gap: 5px;
+}
+.btn-order-orange {
+    flex: 1;
+    background-color: #ea5404; /* Orange */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 10px;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+}
+.btn-memo-white {
+    flex: 1;
+    background-color: white;
+    border: 1px solid #0091d5;
+    color: #0091d5;
+    border-radius: 4px;
+    padding: 10px;
+    font-weight: bold;
+    font-size: 0.8rem; /* Smaller font to fit text */
+    cursor: pointer;
+}
+.btn-info-white {
+    flex: 1.2; /* Slightly wider for longer text */
+    background-color: white;
+    border: 1px solid #0091d5;
+    color: #0091d5;
+    border-radius: 4px;
+    padding: 10px;
+    font-weight: bold;
+    font-size: 0.8rem;
+    cursor: pointer;
+}
+
+/* Toggle Switch */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 24px;
+}
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+input:checked + .slider {
+  background-color: #5cb85c; /* Green */
+}
+input:focus + .slider {
+  box-shadow: 0 0 1px #5cb85c;
+}
+input:checked + .slider:before {
+  -webkit-transform: translateX(16px);
+  -ms-transform: translateX(16px);
+  transform: translateX(16px);
+}
+.slider.round {
+  border-radius: 34px;
+}
+.slider.round:before {
+  border-radius: 50%;
+}
+
+/* Modal Styles */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: white;
+    width: 500px;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-header {
+    margin-bottom: 20px;
+}
+
+.modal-header h2 {
+    margin: 0;
+    font-size: 1.2rem;
+    color: #333;
+}
+
+.modal-body {
+    margin-bottom: 30px;
+}
+
+.modal-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    font-size: 1.2rem;
+}
+
+.modal-row .label {
+    color: #333;
+}
+
+.modal-row .value {
+    font-weight: bold;
+    font-size: 1.4rem;
+    color: #333;
+}
+
+.modal-divider-dotted {
+    border-bottom: 2px dotted #ccc;
+    margin: 5px 0;
+}
+
+.modal-footer {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.modal-buttons-row {
+    display: flex;
+    gap: 15px;
+}
+
+.btn-blue-modal {
+    flex: 1;
+    background-color: #0091d5;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 12px;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    box-shadow: 0 2px 0 #0070a3;
+}
+
+.btn-blue-modal:active {
+    transform: translateY(2px);
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.btn-white-modal {
+    flex: 1;
+    background-color: white;
+    color: #0091d5;
+    border: 1px solid #0091d5;
+    border-radius: 4px;
+    padding: 12px;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.btn-white-modal:active {
+    background-color: #f0f8ff;
+}
+
+/* Discount Modal Styles */
+.discount-modal-content {
+    background-color: #f0f0f0; /* Light grey bg like image */
+    width: 600px;
+    border-radius: 8px;
+    padding: 0;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.modal-header-row {
+    background-color: white;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+}
+
+.modal-title {
+    color: #0091d5;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.tab-group {
+    display: flex;
+    border: 1px solid #0091d5;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.tab-item {
+    padding: 8px 30px;
+    cursor: pointer;
+    font-weight: bold;
+    color: #0091d5;
+    background-color: white;
+}
+.tab-item.active {
+    background-color: #0091d5;
+    color: white;
+}
+
+.preset-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    padding: 20px;
+    background-color: #f4f8fb; /* Light blueish tint */
+}
+
+.preset-btn {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 15px 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    height: 60px;
+    color: #333;
+    font-weight: bold;
+}
+
+.preset-btn.selected {
+    border: 2px solid #ff0000; /* Red border selection */
+    color: #0091d5;
+}
+
+.preset-label {
+    font-size: 0.9rem;
+}
+.preset-sub {
+    font-size: 0.8rem;
+    color: #0091d5; /* Blue text */
+    margin-top: 5px;
+    background-color: #0091d5;
+    color: white;
+    padding: 2px 8px;
+    border-radius: 10px;
+}
+/* Wait, image shows blue background for price tag in buttons? */
+/* Re-checking image: Yes, some buttons have blue bottom part. */
+/* I'll approximate with simple styling for now. */
+
+.preset-btn .preset-sub {
+    background-color: #0091d5;
+    color: white;
+    width: 100%;
+    text-align: center;
+    padding: 5px 0;
+    margin-top: auto; /* Push to bottom */
+}
+/* Manual input button looks different in image */
+.preset-btn:first-child .preset-sub {
+    background: none;
+    color: #0091d5;
+}
+
+.discount-input-area {
+    padding: 20px;
+    background-color: white;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-height: 80px;
+    justify-content: center;
+}
+
+.discount-input-area label {
+    font-weight: bold;
+    color: #333;
+}
+
+.discount-input {
+    font-size: 1.5rem;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    text-align: right;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.preset-selected-msg {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #0091d5;
+    text-align: center;
+}
+
+.modal-footer-row {
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    background-color: white;
+}
+
+.btn-cancel-modal {
+    background-color: white;
+    color: #0091d5;
+    border: 1px solid #0091d5;
+    padding: 12px 40px;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.btn-ok-modal {
+    background-color: #0091d5;
+    color: white;
+    border: none;
+    padding: 12px 40px;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+/* Applied Discount List Styles */
+.discount-list {
+    margin-top: 10px;
+    border-top: 1px dotted #ccc;
+    padding-top: 5px;
+}
+
+.discount-item {
+    font-size: 0.9rem;
+    padding: 5px 0;
+}
+
+.discount-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.delete-icon {
+    color: #0091d5;
+    background-color: #e0f0f8;
+    border: 1px solid #0091d5;
+    border-radius: 3px;
+    padding: 0 4px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 0.8rem;
+}
+
+.discount-name {
+    flex-grow: 1;
+}
+
+.discount-value {
+    font-weight: bold;
+}
