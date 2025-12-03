@@ -246,6 +246,16 @@ body {
   font-weight: bold;
   font-size: 0.9rem;
   cursor: pointer;
+  transition: all 0.1s ease;
+}
+
+.btn-action:hover {
+    background-color: #eaf6fc;
+}
+
+.btn-action:active {
+    background-color: #dbeff9;
+    transform: translateY(1px);
 }
 
 .payment-method-buttons {
