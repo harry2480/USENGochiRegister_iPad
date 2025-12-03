@@ -40,7 +40,18 @@ createApp({
     const discountTab = ref('value'); // 'value' or 'percent'
     const discountInput = ref('');
 
-    // Payment Data
+    // Voucher Data
+    const voucherList = ref([]); // { value: number, name: string }
+    const showVoucherModal = ref(false);
+    const voucherInput = ref('');
+    const voucherTypes = [
+        { id: 1, name: 'ジェフグルメ' },
+        { id: 2, name: 'ビール券' },
+        { id: 3, name: 'お食事券' },
+        { id: 4, name: 'クーポン' },
+        { id: 99, name: 'その他金券' }
+    ];
+    const selectedVoucherType = ref(voucherTypes[0]);
     const inputAmount = ref('0');
     const inputBuffer = ref('');
     const receivedAmount = ref(0);
@@ -95,8 +106,13 @@ createApp({
         return Math.min(total, maxDiscount);
     });
 
+    const voucherTotal = computed(() => {
+        return voucherList.value.reduce((sum, v) => sum + v.value, 0);
+    });
+
     const totalAmount = computed(() => {
-      return subtotal.value + serviceCharge.value + lateNightCharge.value - discountTotal.value;
+      const amount = subtotal.value + serviceCharge.value + lateNightCharge.value - discountTotal.value - voucherTotal.value;
+      return amount > 0 ? amount : 0;
     });
 
     const taxAmount = computed(() => {
@@ -125,6 +141,7 @@ createApp({
              // Maybe set subtotal based on table amount to make it dynamic
              subtotal.value = table.amount;
              discountList.value = []; // Reset discounts
+             voucherList.value = []; // Reset vouchers
              receivedAmount.value = 0;
              inputBuffer.value = '';
              inputAmount.value = '0';
@@ -149,6 +166,7 @@ createApp({
         // Reset Transaction
         subtotal.value = 0;
         discountList.value = [];
+        voucherList.value = [];
         receivedAmount.value = 0;
         inputBuffer.value = '';
         inputAmount.value = '0';
@@ -232,6 +250,49 @@ createApp({
 
     const removeDiscount = (index) => {
         discountList.value.splice(index, 1);
+    };
+
+    // Voucher Methods
+    const openVoucherModal = () => {
+        showVoucherModal.value = true;
+        voucherInput.value = '';
+        selectedVoucherType.value = voucherTypes[0]; // Reset to default
+    };
+
+    const closeVoucherModal = () => {
+        showVoucherModal.value = false;
+    };
+
+    const handleVoucherNumClick = (num) => {
+        if (voucherInput.value.length < 8) {
+             voucherInput.value += num;
+        }
+    };
+
+    const handleVoucherClear = () => {
+        voucherInput.value = '';
+    };
+
+    const addVoucher = () => {
+        if (!voucherInput.value) return;
+        const val = parseInt(voucherInput.value, 10);
+        if (isNaN(val) || val <= 0) return;
+
+        const typeName = selectedVoucherType.value ? selectedVoucherType.value.name : '金券';
+        voucherList.value.push({
+            value: val,
+            name: `${typeName} ¥${val.toLocaleString()}`
+        });
+
+        voucherInput.value = '';
+    };
+
+    const removeVoucher = (index) => {
+        voucherList.value.splice(index, 1);
+    };
+
+    const selectVoucherType = (type) => {
+        selectedVoucherType.value = type;
     };
 
     const handleNumClick = (num) => {
@@ -327,7 +388,20 @@ createApp({
       handleDiscountNumClick,
       handleDiscountClear,
       addDiscount,
-      removeDiscount
+      removeDiscount,
+      showVoucherModal,
+      voucherList,
+      voucherInput,
+      openVoucherModal,
+      closeVoucherModal,
+      handleVoucherNumClick,
+      handleVoucherClear,
+      addVoucher,
+      removeVoucher,
+      voucherTotal,
+      voucherTypes,
+      selectedVoucherType,
+      selectVoucherType
     };
   }
 }).mount('#app');

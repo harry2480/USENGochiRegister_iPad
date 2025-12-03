@@ -224,7 +224,7 @@
                 <div class="panel right-panel">
                     <div class="top-action-buttons">
                         <button class="btn-action" @click="openDiscountModal">値引・割引登録</button>
-                        <button class="btn-action">金券</button>
+                        <button class="btn-action" @click="openVoucherModal">金券</button>
                     </div>
 
                     <div class="summary-divider-dashed"></div>
@@ -322,6 +322,74 @@
                              <div class="discount-summary-row">
                                  <span>小計</span>
                                  <span>{{ formatCurrency(subtotal) }}</span>
+                             </div>
+                             <div class="discount-summary-row total">
+                                 <span>支払計</span>
+                                 <span>{{ formatCurrency(totalAmount) }}</span>
+                             </div>
+                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- VOUCHER MODAL -->
+        <div v-if="showVoucherModal" class="modal-overlay">
+            <div class="discount-modal">
+                <div class="discount-modal-header">
+                    <span>金券登録</span>
+                    <button class="btn-close-modal" @click="closeVoucherModal">×</button>
+                </div>
+                <div class="discount-body">
+                    <div class="discount-left">
+                        <div style="font-weight: bold; margin-bottom: 5px; color: #555;">金券種類選択</div>
+                        <div class="voucher-type-grid">
+                            <button v-for="type in voucherTypes" :key="type.id"
+                                    class="btn-voucher-type"
+                                    :class="{ active: selectedVoucherType && selectedVoucherType.id === type.id }"
+                                    @click="selectVoucherType(type)">
+                                {{ type.name }}
+                            </button>
+                        </div>
+
+                        <div class="discount-input-display">
+                             {{ voucherInput }}
+                        </div>
+
+                        <div class="discount-numpad">
+                             <button class="discount-btn-num" @click="handleVoucherNumClick('7')">7</button>
+                             <button class="discount-btn-num" @click="handleVoucherNumClick('8')">8</button>
+                             <button class="discount-btn-num" @click="handleVoucherNumClick('9')">9</button>
+                             <button class="discount-btn-num" @click="handleVoucherNumClick('4')">4</button>
+                             <button class="discount-btn-num" @click="handleVoucherNumClick('5')">5</button>
+                             <button class="discount-btn-num" @click="handleVoucherNumClick('6')">6</button>
+                             <button class="discount-btn-num" @click="handleVoucherNumClick('1')">1</button>
+                             <button class="discount-btn-num" @click="handleVoucherNumClick('2')">2</button>
+                             <button class="discount-btn-num" @click="handleVoucherNumClick('3')">3</button>
+                             <button class="discount-btn-num" @click="handleVoucherNumClick('0')">0</button>
+                             <button class="discount-btn-num" @click="handleVoucherNumClick('00')">00</button>
+                             <button class="discount-btn-num" style="color:red;" @click="handleVoucherClear">C</button>
+                        </div>
+
+                        <button class="btn-confirm-discount" @click="addVoucher">追加</button>
+                    </div>
+
+                    <div class="discount-right">
+                         <div style="margin-bottom: 10px; font-weight: bold; color: #555;">適用中</div>
+                         <div class="discount-applied-list">
+                            <div v-for="(item, index) in voucherList" :key="index" class="discount-item">
+                                <span>{{ item.name }}</span>
+                                <button class="btn-delete-discount" @click="removeVoucher(index)">削除</button>
+                            </div>
+                         </div>
+                         <div class="discount-summary">
+                             <div class="discount-summary-row">
+                                 <span>小計</span>
+                                 <span>{{ formatCurrency(subtotal) }}</span>
+                             </div>
+                             <div class="discount-summary-row">
+                                 <span>金券計</span>
+                                 <span>{{ formatCurrency(voucherTotal) }}</span>
                              </div>
                              <div class="discount-summary-row total">
                                  <span>支払計</span>

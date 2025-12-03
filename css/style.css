@@ -246,6 +246,16 @@ body {
   font-weight: bold;
   font-size: 0.9rem;
   cursor: pointer;
+  transition: all 0.1s ease;
+}
+
+.btn-action:hover {
+    background-color: #eaf6fc;
+}
+
+.btn-action:active {
+    background-color: #dbeff9;
+    transform: translateY(1px);
 }
 
 .payment-method-buttons {
@@ -968,4 +978,34 @@ body {
     font-weight: bold;
     cursor: pointer;
     box-shadow: 0 2px 0 #cf4904;
+}
+/* Voucher Type Grid */
+.voucher-type-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-bottom: 15px;
+}
+
+.btn-voucher-type {
+    background-color: white;
+    border: 1px solid #ccc;
+    color: #555;
+    padding: 10px;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.1s ease;
+}
+
+.btn-voucher-type:hover {
+    background-color: #f9f9f9;
+}
+
+.btn-voucher-type.active {
+    background-color: var(--usen-blue);
+    color: white;
+    border-color: var(--usen-blue);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 }
