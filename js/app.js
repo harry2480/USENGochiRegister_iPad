@@ -33,7 +33,12 @@ createApp({
     const subtotal = ref(0);
     const serviceCharge = ref(0);
     const lateNightCharge = ref(0);
-    const discountTotal = ref(0);
+
+    // Discount Data
+    const discountList = ref([]); // { type: 'value'|'percent', value: number, name: string }
+    const showDiscountModal = ref(false);
+    const discountTab = ref('value'); // 'value' or 'percent'
+    const discountInput = ref('');
 
     // Payment Data
     const inputAmount = ref('0');
@@ -64,6 +69,32 @@ createApp({
     }
 
     // Computed
+    const discountTotal = computed(() => {
+        let total = 0;
+        let currentSubtotal = subtotal.value;
+
+        // Apply fixed value discounts first
+        discountList.value.forEach(d => {
+            if (d.type === 'value') {
+                total += d.value;
+                currentSubtotal -= d.value;
+            }
+        });
+
+        // Apply percentage discounts on the remaining subtotal
+        if (currentSubtotal < 0) currentSubtotal = 0;
+
+        discountList.value.forEach(d => {
+            if (d.type === 'percent') {
+                const amount = Math.floor(currentSubtotal * (d.value / 100));
+                total += amount;
+            }
+        });
+
+        const maxDiscount = subtotal.value + serviceCharge.value + lateNightCharge.value;
+        return Math.min(total, maxDiscount);
+    });
+
     const totalAmount = computed(() => {
       return subtotal.value + serviceCharge.value + lateNightCharge.value - discountTotal.value;
     });
@@ -93,6 +124,7 @@ createApp({
              // For now just switch to register view
              // Maybe set subtotal based on table amount to make it dynamic
              subtotal.value = table.amount;
+             discountList.value = []; // Reset discounts
              receivedAmount.value = 0;
              inputBuffer.value = '';
              inputAmount.value = '0';
@@ -116,6 +148,7 @@ createApp({
 
         // Reset Transaction
         subtotal.value = 0;
+        discountList.value = [];
         receivedAmount.value = 0;
         inputBuffer.value = '';
         inputAmount.value = '0';
@@ -150,6 +183,55 @@ createApp({
         if (name !== null) {
              alert(`「${name}」様 領収書を発行しました。\n金額: ¥${totalAmount.value.toLocaleString()}`);
         }
+    };
+
+    // Discount Methods
+    const openDiscountModal = () => {
+        showDiscountModal.value = true;
+        discountInput.value = '';
+        discountTab.value = 'value';
+    };
+
+    const closeDiscountModal = () => {
+        showDiscountModal.value = false;
+    };
+
+    const setDiscountTab = (tab) => {
+        discountTab.value = tab;
+        discountInput.value = '';
+    };
+
+    const handleDiscountNumClick = (num) => {
+        if (discountInput.value.length < 8) {
+             discountInput.value += num;
+        }
+    };
+
+    const handleDiscountClear = () => {
+        discountInput.value = '';
+    };
+
+    const addDiscount = () => {
+        if (!discountInput.value) return;
+        const val = parseInt(discountInput.value, 10);
+        if (isNaN(val) || val <= 0) return;
+
+        if (discountTab.value === 'percent' && val > 100) {
+            alert('割引率は100%以下にしてください');
+            return;
+        }
+
+        discountList.value.push({
+            type: discountTab.value,
+            value: val,
+            name: discountTab.value === 'value' ? `値引 ¥${val.toLocaleString()}` : `割引 ${val}%`
+        });
+
+        discountInput.value = '';
+    };
+
+    const removeDiscount = (index) => {
+        discountList.value.splice(index, 1);
     };
 
     const handleNumClick = (num) => {
@@ -234,7 +316,18 @@ createApp({
       closeCheckoutModal,
       handleReceiptIssue,
       handlePoints,
-      handleOfficialReceipt
+      handleOfficialReceipt,
+      showDiscountModal,
+      discountTab,
+      discountInput,
+      discountList,
+      openDiscountModal,
+      closeDiscountModal,
+      setDiscountTab,
+      handleDiscountNumClick,
+      handleDiscountClear,
+      addDiscount,
+      removeDiscount
     };
   }
 }).mount('#app');
